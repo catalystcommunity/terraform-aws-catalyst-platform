@@ -6,10 +6,30 @@ on:
     paths:
       - '*.tf'
       - 'modules/**'
+      - 'README.md'
 jobs:
   conventional-commits-pr:
-    if: "github.event.pull_request.draft == false"
+    if: "github.event.pull_request.draft == false && !contains(github.event.head_commit.message, 'chore(docs): apply automatic generated docs')"
     name: Validate Conventional Commits PR
     runs-on: ubuntu-latest
     steps:
       - uses: catalystsquad/action-validate-conventional-commits-pr@v1
+  gen-docs:
+    if: "!contains(github.event.head_commit.message, 'chore(docs): apply automatic generated docs')"
+    name: Generate docs
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v2
+      with:
+        token: ${{ secrets.AUTOMATION_PAT }}
+        ref: ${{ github.event.pull_request.head.ref }}
+    - name: Configure git
+      uses: fregante/setup-git-user@v1
+    - uses: terraform-docs/gh-actions@main
+      with:
+        # make use of the config file so that terraform-docs can be executed
+        # locally for the same result as github actions with ease
+        config-file: .terraform-docs.yml
+        git-push: "true"
+        git-commit-message: "chore(docs): apply automatic generated docs"
