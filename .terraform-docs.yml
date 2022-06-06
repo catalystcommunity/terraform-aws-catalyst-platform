@@ -9,8 +9,6 @@ recursive:
 content: |-
     {{ .Requirements }}
 
-    {{ .Providers }}
-
     {{ .Inputs }}
 
     {{ .Outputs }}
