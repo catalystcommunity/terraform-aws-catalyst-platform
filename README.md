@@ -123,14 +123,6 @@ module "platform" {
 | <a name="requirement_kubernetes"></a> [kubernetes](#requirement\_kubernetes) | ~> 2.0 |
 | <a name="requirement_tls"></a> [tls](#requirement\_tls) | ~> 3.0 |
 
-## Providers
-
-| Name | Version |
-|------|---------|
-| <a name="provider_aws"></a> [aws](#provider\_aws) | ~> 4.0 |
-| <a name="provider_kubernetes"></a> [kubernetes](#provider\_kubernetes) | ~> 2.0 |
-| <a name="provider_tls"></a> [tls](#provider\_tls) | ~> 3.0 |
-
 ## Inputs
 
 | Name | Description | Type | Default | Required |
