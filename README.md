@@ -135,38 +135,38 @@ module "platform" {
 
 | Name | Description | Type | Default | Required |
 |------|-------------|------|---------|:--------:|
-| <a name="input_eks_cluster_name"></a> [eks\_cluster\_name](#input\_eks\_cluster\_name) | n/a | `string` | n/a | yes |
-| <a name="input_vpc_name"></a> [vpc\_name](#input\_vpc\_name) | n/a | `string` | n/a | yes |
-| <a name="input_availability_zones"></a> [availability\_zones](#input\_availability\_zones) | n/a | <pre>list(object({<br>    az_name             = string<br>    private_subnet_cidr = string<br>    public_subnet_cidr  = string<br>  }))</pre> | `[]` | no |
-| <a name="input_aws_auth_roles"></a> [aws\_auth\_roles](#input\_aws\_auth\_roles) | extra roles to add to the mapRoles field in the aws\_auth configmap, for granting access via IAM roles | <pre>list(object({<br>    rolearn  = string<br>    username = string<br>    groups   = list(string)<br>  }))</pre> | `[]` | no |
-| <a name="input_aws_auth_sso_roles"></a> [aws\_auth\_sso\_roles](#input\_aws\_auth\_sso\_roles) | extra SSO roles to add to the mapRoles field. Auto discovers SSO role ARNs based on regex. | <pre>list(object({<br>    sso_role_name = string<br>    username      = string<br>    groups        = list(string)<br>  }))</pre> | `[]` | no |
-| <a name="input_aws_auth_users"></a> [aws\_auth\_users](#input\_aws\_auth\_users) | extra users to add to the mapUsers field in the aws\_auth configmap, for granting access via IAM users | <pre>list(object({<br>    userarn  = string<br>    username = string<br>    groups   = list(string)<br>  }))</pre> | `[]` | no |
-| <a name="input_cluster_autoscaler_namespace"></a> [cluster\_autoscaler\_namespace](#input\_cluster\_autoscaler\_namespace) | n/a | `string` | `"cluster-autoscaler"` | no |
-| <a name="input_cluster_autoscaler_service_account_name"></a> [cluster\_autoscaler\_service\_account\_name](#input\_cluster\_autoscaler\_service\_account\_name) | n/a | `string` | `"cluster-autoscaler"` | no |
-| <a name="input_cortex_namespace"></a> [cortex\_namespace](#input\_cortex\_namespace) | n/a | `string` | `"cortex"` | no |
-| <a name="input_cortex_service_account_name"></a> [cortex\_service\_account\_name](#input\_cortex\_service\_account\_name) | n/a | `string` | `"cortex"` | no |
-| <a name="input_eks_cluster_enabled_log_types"></a> [eks\_cluster\_enabled\_log\_types](#input\_eks\_cluster\_enabled\_log\_types) | n/a | `list(string)` | `[]` | no |
-| <a name="input_eks_cluster_endpoint_private_access"></a> [eks\_cluster\_endpoint\_private\_access](#input\_eks\_cluster\_endpoint\_private\_access) | n/a | `bool` | `false` | no |
-| <a name="input_eks_cluster_endpoint_public_access"></a> [eks\_cluster\_endpoint\_public\_access](#input\_eks\_cluster\_endpoint\_public\_access) | n/a | `bool` | `true` | no |
-| <a name="input_eks_cluster_endpoint_public_access_cidrs"></a> [eks\_cluster\_endpoint\_public\_access\_cidrs](#input\_eks\_cluster\_endpoint\_public\_access\_cidrs) | n/a | `list(string)` | <pre>[<br>  "0.0.0.0/0"<br>]</pre> | no |
-| <a name="input_eks_cluster_version"></a> [eks\_cluster\_version](#input\_eks\_cluster\_version) | n/a | `string` | `"1.22"` | no |
-| <a name="input_eks_default_node_groups_initial_desired_size"></a> [eks\_default\_node\_groups\_initial\_desired\_size](#input\_eks\_default\_node\_groups\_initial\_desired\_size) | n/a | `number` | `1` | no |
-| <a name="input_eks_default_node_groups_instance_types"></a> [eks\_default\_node\_groups\_instance\_types](#input\_eks\_default\_node\_groups\_instance\_types) | n/a | `list(string)` | <pre>[<br>  "t3.medium"<br>]</pre> | no |
-| <a name="input_eks_default_node_groups_max_size"></a> [eks\_default\_node\_groups\_max\_size](#input\_eks\_default\_node\_groups\_max\_size) | n/a | `number` | `3` | no |
-| <a name="input_eks_default_node_groups_min_size"></a> [eks\_default\_node\_groups\_min\_size](#input\_eks\_default\_node\_groups\_min\_size) | n/a | `number` | `1` | no |
-| <a name="input_eks_default_node_groups_version"></a> [eks\_default\_node\_groups\_version](#input\_eks\_default\_node\_groups\_version) | Kubernetes version of the EKS cluster's default node group, allows for upgrading the kubernetes control plane first, then upgrading the node groups separately afterwards. Defaults to the specified eks\_cluster\_version variable. | `string` | `""` | no |
-| <a name="input_enable_cortex_dependencies"></a> [enable\_cortex\_dependencies](#input\_enable\_cortex\_dependencies) | n/a | `bool` | `false` | no |
-| <a name="input_enable_eks_default_node_groups"></a> [enable\_eks\_default\_node\_groups](#input\_enable\_eks\_default\_node\_groups) | enables creation of a default set of node groups, one per availability zone defined by the availability\_zones variable | `bool` | `true` | no |
-| <a name="input_enable_eks_subnet_tags"></a> [enable\_eks\_subnet\_tags](#input\_enable\_eks\_subnet\_tags) | n/a | `bool` | `true` | no |
-| <a name="input_enable_loki_dependencies"></a> [enable\_loki\_dependencies](#input\_enable\_loki\_dependencies) | n/a | `bool` | `false` | no |
-| <a name="input_enable_velero_dependencies"></a> [enable\_velero\_dependencies](#input\_enable\_velero\_dependencies) | n/a | `bool` | `true` | no |
-| <a name="input_loki_namespace"></a> [loki\_namespace](#input\_loki\_namespace) | n/a | `string` | `"loki"` | no |
-| <a name="input_loki_service_account_name"></a> [loki\_service\_account\_name](#input\_loki\_service\_account\_name) | n/a | `string` | `"loki"` | no |
+| <a name="input_eks_cluster_name"></a> [eks\_cluster\_name](#input\_eks\_cluster\_name) | Name of EKS cluster. Used in naming of many EKS resources, including cluster, IAM roles and policies, S3 buckets for Velero, Cortex, Loki, etc. | `string` | n/a | yes |
+| <a name="input_vpc_name"></a> [vpc\_name](#input\_vpc\_name) | Name of the VPC to create. Used in VPC resource tags for naming. | `string` | n/a | yes |
+| <a name="input_availability_zones"></a> [availability\_zones](#input\_availability\_zones) | List of Availability zones with corresponding public and private subnet CIDRs to create subnets in each. Default EKS node groups get created for each availability zone specified. | <pre>list(object({<br>    az_name             = string<br>    private_subnet_cidr = string<br>    public_subnet_cidr  = string<br>  }))</pre> | `[]` | no |
+| <a name="input_aws_auth_roles"></a> [aws\_auth\_roles](#input\_aws\_auth\_roles) | Extra roles to add to the mapRoles field in the aws\_auth configmap, for granting access via IAM roles | <pre>list(object({<br>    rolearn  = string<br>    username = string<br>    groups   = list(string)<br>  }))</pre> | `[]` | no |
+| <a name="input_aws_auth_sso_roles"></a> [aws\_auth\_sso\_roles](#input\_aws\_auth\_sso\_roles) | Extra SSO roles to add to the mapRoles field. Auto discovers SSO role ARNs based on regex. | <pre>list(object({<br>    sso_role_name = string<br>    username      = string<br>    groups        = list(string)<br>  }))</pre> | `[]` | no |
+| <a name="input_aws_auth_users"></a> [aws\_auth\_users](#input\_aws\_auth\_users) | Extra users to add to the mapUsers field in the aws\_auth configmap, for granting access via IAM users | <pre>list(object({<br>    userarn  = string<br>    username = string<br>    groups   = list(string)<br>  }))</pre> | `[]` | no |
+| <a name="input_cluster_autoscaler_namespace"></a> [cluster\_autoscaler\_namespace](#input\_cluster\_autoscaler\_namespace) | Cluster autoscaler namespace, for configuring IRSA. | `string` | `"cluster-autoscaler"` | no |
+| <a name="input_cluster_autoscaler_service_account_name"></a> [cluster\_autoscaler\_service\_account\_name](#input\_cluster\_autoscaler\_service\_account\_name) | Cluster autoscaler service account name, for configuring IRSA. | `string` | `"cluster-autoscaler"` | no |
+| <a name="input_cortex_namespace"></a> [cortex\_namespace](#input\_cortex\_namespace) | Cortex namespace, for configuring IRSA. | `string` | `"cortex"` | no |
+| <a name="input_cortex_service_account_name"></a> [cortex\_service\_account\_name](#input\_cortex\_service\_account\_name) | Cortex service account name, for configuring IRSA. | `string` | `"cortex"` | no |
+| <a name="input_eks_cluster_enabled_log_types"></a> [eks\_cluster\_enabled\_log\_types](#input\_eks\_cluster\_enabled\_log\_types) | List of EKS log types to enable. | `list(string)` | `[]` | no |
+| <a name="input_eks_cluster_endpoint_private_access"></a> [eks\_cluster\_endpoint\_private\_access](#input\_eks\_cluster\_endpoint\_private\_access) | Whether to enable private VPC access to the k8s API. | `bool` | `false` | no |
+| <a name="input_eks_cluster_endpoint_public_access"></a> [eks\_cluster\_endpoint\_public\_access](#input\_eks\_cluster\_endpoint\_public\_access) | Whether to enable public internet access to the k8s API. | `bool` | `true` | no |
+| <a name="input_eks_cluster_endpoint_public_access_cidrs"></a> [eks\_cluster\_endpoint\_public\_access\_cidrs](#input\_eks\_cluster\_endpoint\_public\_access\_cidrs) | What CIDRs to allow public access from to the k8s API. | `list(string)` | <pre>[<br>  "0.0.0.0/0"<br>]</pre> | no |
+| <a name="input_eks_cluster_version"></a> [eks\_cluster\_version](#input\_eks\_cluster\_version) | Kubernetes version of the EKS cluster. | `string` | `"1.22"` | no |
+| <a name="input_eks_default_node_groups_initial_desired_size"></a> [eks\_default\_node\_groups\_initial\_desired\_size](#input\_eks\_default\_node\_groups\_initial\_desired\_size) | Default node groups' initial desired size. Changes to this field are ignored to prevent downscaling during terraform updates. | `number` | `1` | no |
+| <a name="input_eks_default_node_groups_instance_types"></a> [eks\_default\_node\_groups\_instance\_types](#input\_eks\_default\_node\_groups\_instance\_types) | EC2 instance types to configure the default node groups with. | `list(string)` | <pre>[<br>  "t3.medium"<br>]</pre> | no |
+| <a name="input_eks_default_node_groups_max_size"></a> [eks\_default\_node\_groups\_max\_size](#input\_eks\_default\_node\_groups\_max\_size) | Default node groups' maximum size. | `number` | `3` | no |
+| <a name="input_eks_default_node_groups_min_size"></a> [eks\_default\_node\_groups\_min\_size](#input\_eks\_default\_node\_groups\_min\_size) | Default node groups' minimum size | `number` | `1` | no |
+| <a name="input_eks_default_node_groups_version"></a> [eks\_default\_node\_groups\_version](#input\_eks\_default\_node\_groups\_version) | Kubernetes version of the EKS cluster's default node groups, allows for upgrading the kubernetes control plane first, then upgrading the node groups separately afterwards. Defaults to the specified eks\_cluster\_version variable. | `string` | `""` | no |
+| <a name="input_enable_cortex_dependencies"></a> [enable\_cortex\_dependencies](#input\_enable\_cortex\_dependencies) | Whether to enable Cortex S3 bucket and IAM role with IRSA. | `bool` | `false` | no |
+| <a name="input_enable_eks_default_node_groups"></a> [enable\_eks\_default\_node\_groups](#input\_enable\_eks\_default\_node\_groups) | Enables creation of a default set of node groups, one per availability zone defined by the availability\_zones variable | `bool` | `true` | no |
+| <a name="input_enable_eks_subnet_tags"></a> [enable\_eks\_subnet\_tags](#input\_enable\_eks\_subnet\_tags) | Whether to enable addition of EKS tags to subnet resources. | `bool` | `true` | no |
+| <a name="input_enable_loki_dependencies"></a> [enable\_loki\_dependencies](#input\_enable\_loki\_dependencies) | Whether to enable Loki S3 bucket and IAM role with IRSA. | `bool` | `false` | no |
+| <a name="input_enable_velero_dependencies"></a> [enable\_velero\_dependencies](#input\_enable\_velero\_dependencies) | Whether to enable Velero S3 bucket and IAM role with IRSA. | `bool` | `true` | no |
+| <a name="input_loki_namespace"></a> [loki\_namespace](#input\_loki\_namespace) | Loki namespace, for configuring IRSA. | `string` | `"loki"` | no |
+| <a name="input_loki_service_account_name"></a> [loki\_service\_account\_name](#input\_loki\_service\_account\_name) | Loki service account name, for configuring IRSA. | `string` | `"loki"` | no |
 | <a name="input_manage_aws_auth_configmap"></a> [manage\_aws\_auth\_configmap](#input\_manage\_aws\_auth\_configmap) | Whether to manage the aws-auth configmap. Requires configuration of a Kubernetes provider. | `bool` | `false` | no |
 | <a name="input_tags"></a> [tags](#input\_tags) | n/a | `map(string)` | `{}` | no |
-| <a name="input_velero_namespace"></a> [velero\_namespace](#input\_velero\_namespace) | n/a | `string` | `"velero"` | no |
-| <a name="input_velero_service_account_name"></a> [velero\_service\_account\_name](#input\_velero\_service\_account\_name) | n/a | `string` | `"velero"` | no |
-| <a name="input_vpc_cidr"></a> [vpc\_cidr](#input\_vpc\_cidr) | n/a | `string` | `"10.0.0.0/16"` | no |
+| <a name="input_velero_namespace"></a> [velero\_namespace](#input\_velero\_namespace) | Velero namespace, for configuring IRSA. | `string` | `"velero"` | no |
+| <a name="input_velero_service_account_name"></a> [velero\_service\_account\_name](#input\_velero\_service\_account\_name) | Velero service account name, for configuring IRSA. | `string` | `"velero"` | no |
+| <a name="input_vpc_cidr"></a> [vpc\_cidr](#input\_vpc\_cidr) | VPC CIDR. | `string` | `"10.0.0.0/16"` | no |
 
 ## Outputs
 
