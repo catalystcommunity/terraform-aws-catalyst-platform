@@ -1,0 +1,32 @@
+formatter: "markdown table"
+
+recursive:
+  enabled: true
+  path: modules
+
+# reorder content so requirements and inputs are at the beginning, and
+# providers is excluded because it's redundant with requirements
+content: |-
+    {{ .Requirements }}
+
+    {{ .Providers }}
+
+    {{ .Inputs }}
+
+    {{ .Outputs }}
+
+    {{ .Resources }}
+
+    {{ .Modules }}
+
+output:
+  file: "README.md"
+  mode: inject
+  template: |-
+    <!-- BEGIN_TF_DOCS -->
+    {{ .Content }}
+    <!-- END_TF_DOCS -->
+
+sort:
+  enabled: true
+  by: required
