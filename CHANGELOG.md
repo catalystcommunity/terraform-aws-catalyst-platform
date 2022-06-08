@@ -1,3 +1,10 @@
+# [1.1.0](https://github.com/catalystsquad/terraform-aws-catalyst-platform/compare/v1.0.1...v1.1.0) (2022-06-08)
+
+
+### Features
+
+* allow for overriding velero bucket name, make bucket optional ([#4](https://github.com/catalystsquad/terraform-aws-catalyst-platform/issues/4)) ([bd151e0](https://github.com/catalystsquad/terraform-aws-catalyst-platform/commit/bd151e0ebbf3204426041c51bbdf0aba820913f5))
+
 ## [1.0.1](https://github.com/catalystsquad/terraform-aws-catalyst-platform/compare/v1.0.0...v1.0.1) (2022-06-06)
 
 
