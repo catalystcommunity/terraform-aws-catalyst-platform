@@ -137,6 +137,7 @@ module "platform" {
 | <a name="input_cluster_autoscaler_service_account_name"></a> [cluster\_autoscaler\_service\_account\_name](#input\_cluster\_autoscaler\_service\_account\_name) | Cluster autoscaler service account name, for configuring IRSA. | `string` | `"cluster-autoscaler"` | no |
 | <a name="input_cortex_namespace"></a> [cortex\_namespace](#input\_cortex\_namespace) | Cortex namespace, for configuring IRSA. | `string` | `"cortex"` | no |
 | <a name="input_cortex_service_account_name"></a> [cortex\_service\_account\_name](#input\_cortex\_service\_account\_name) | Cortex service account name, for configuring IRSA. | `string` | `"cortex"` | no |
+| <a name="input_create_velero_bucket"></a> [create\_velero\_bucket](#input\_create\_velero\_bucket) | Wether to create the Velero bucket when Velero dependencies are enabled. Allows for disabling the bucket and still creating the IAM dependencies, for scenarios where the bucket is not managed by terraform such as disaster recovery | `bool` | `true` | no |
 | <a name="input_eks_cluster_enabled_log_types"></a> [eks\_cluster\_enabled\_log\_types](#input\_eks\_cluster\_enabled\_log\_types) | List of EKS log types to enable. | `list(string)` | `[]` | no |
 | <a name="input_eks_cluster_endpoint_private_access"></a> [eks\_cluster\_endpoint\_private\_access](#input\_eks\_cluster\_endpoint\_private\_access) | Whether to enable private VPC access to the k8s API. | `bool` | `false` | no |
 | <a name="input_eks_cluster_endpoint_public_access"></a> [eks\_cluster\_endpoint\_public\_access](#input\_eks\_cluster\_endpoint\_public\_access) | Whether to enable public internet access to the k8s API. | `bool` | `true` | no |
@@ -156,6 +157,7 @@ module "platform" {
 | <a name="input_loki_service_account_name"></a> [loki\_service\_account\_name](#input\_loki\_service\_account\_name) | Loki service account name, for configuring IRSA. | `string` | `"loki"` | no |
 | <a name="input_manage_aws_auth_configmap"></a> [manage\_aws\_auth\_configmap](#input\_manage\_aws\_auth\_configmap) | Whether to manage the aws-auth configmap. Requires configuration of a Kubernetes provider. | `bool` | `false` | no |
 | <a name="input_tags"></a> [tags](#input\_tags) | n/a | `map(string)` | `{}` | no |
+| <a name="input_velero_bucket_name_override"></a> [velero\_bucket\_name\_override](#input\_velero\_bucket\_name\_override) | override the velero bucket name | `string` | `""` | no |
 | <a name="input_velero_namespace"></a> [velero\_namespace](#input\_velero\_namespace) | Velero namespace, for configuring IRSA. | `string` | `"velero"` | no |
 | <a name="input_velero_service_account_name"></a> [velero\_service\_account\_name](#input\_velero\_service\_account\_name) | Velero service account name, for configuring IRSA. | `string` | `"velero"` | no |
 | <a name="input_vpc_cidr"></a> [vpc\_cidr](#input\_vpc\_cidr) | VPC CIDR. | `string` | `"10.0.0.0/16"` | no |
