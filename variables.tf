@@ -150,6 +150,18 @@ variable "enable_velero_dependencies" {
   default     = true
 }
 
+variable "velero_bucket_name_override" {
+  description = "override the velero bucket name"
+  type        = string
+  default     = ""
+}
+
+variable "create_velero_bucket" {
+  description = "Wether to create the Velero bucket when Velero dependencies are enabled. Allows for disabling the bucket and still creating the IAM dependencies, for scenarios where the bucket is not managed by terraform such as disaster recovery"
+  type        = bool
+  default     = true
+}
+
 variable "velero_namespace" {
   description = "Velero namespace, for configuring IRSA."
   type        = string

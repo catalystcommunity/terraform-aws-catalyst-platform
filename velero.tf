@@ -1,18 +1,25 @@
 # optional velero dependencies
+locals {
+  create_velero_bucket = var.enable_velero_dependencies && var.create_velero_bucket
+
+  default_velero_bucket_name = "${data.aws_caller_identity.current.account_id}-${var.eks_cluster_name}-velero"
+  velero_bucket_name         = coalesce(var.velero_bucket_name_override, local.default_velero_bucket_name)
+}
+
 resource "aws_s3_bucket" "velero" {
-  count  = var.enable_velero_dependencies ? 1 : 0
-  bucket = "${data.aws_caller_identity.current.account_id}-${var.eks_cluster_name}-velero"
+  count  = local.create_velero_bucket ? 1 : 0
+  bucket = local.velero_bucket_name
   tags   = var.tags
 }
 
 resource "aws_s3_bucket_acl" "velero" {
-  count  = var.enable_velero_dependencies ? 1 : 0
+  count  = local.create_velero_bucket ? 1 : 0
   bucket = aws_s3_bucket.velero[count.index].id
   acl    = "private"
 }
 
 resource "aws_s3_bucket_server_side_encryption_configuration" "velero" {
-  count  = var.enable_velero_dependencies ? 1 : 0
+  count  = local.create_velero_bucket ? 1 : 0
   bucket = aws_s3_bucket.velero[count.index].id
 
   rule {
@@ -45,14 +52,14 @@ data "aws_iam_policy_document" "velero" {
       "s3:AbortMultipartUpload",
       "s3:ListMultipartUploadParts",
     ]
-    resources = ["arn:aws:s3:::${aws_s3_bucket.velero[count.index].id}/*"]
+    resources = ["arn:aws:s3:::${local.velero_bucket_name}/*"]
   }
 
   statement {
     actions = [
       "s3:ListBucket",
     ]
-    resources = ["arn:aws:s3:::${aws_s3_bucket.velero[count.index].id}"]
+    resources = ["arn:aws:s3:::${local.velero_bucket_name}"]
   }
 }
 
