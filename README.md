@@ -24,7 +24,7 @@ provider "aws" {
 }
 
 module "platform" {
-  source = "github.com/catalystsquad/terraform-aws-catalyst-platform"
+  source = "catalystsquad/catalyst-platform/aws"
 
   vpc_name = "dev"
   vpc_cidr = "10.1.0.0/16"
@@ -82,7 +82,7 @@ provider "kubernetes" {
 }
 
 module "platform" {
-  source = "github.com/catalystsquad/terraform-aws-catalyst-platform"
+  source = "catalystsquad/catalyst-platform/aws"
 
   vpc_name = "dev"
   vpc_cidr = "10.1.0.0/16"
