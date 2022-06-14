@@ -1,3 +1,10 @@
+## [1.1.1](https://github.com/catalystsquad/terraform-aws-catalyst-platform/compare/v1.1.0...v1.1.1) (2022-06-14)
+
+
+### Bug Fixes
+
+* use replace function to remove path from sso role arns ([#6](https://github.com/catalystsquad/terraform-aws-catalyst-platform/issues/6)) ([c231fa6](https://github.com/catalystsquad/terraform-aws-catalyst-platform/commit/c231fa6688bb5e1bcdaeb03d5c8112d122a5a709))
+
 # [1.1.0](https://github.com/catalystsquad/terraform-aws-catalyst-platform/compare/v1.0.1...v1.1.0) (2022-06-08)
 
 
