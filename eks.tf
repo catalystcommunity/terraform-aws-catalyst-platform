@@ -178,7 +178,8 @@ data "aws_iam_roles" "sso_auto_discover" {
 
 locals {
   auto_discovered_sso_roles = [for index, sso_role in var.aws_auth_sso_roles : {
-    rolearn  = tolist(data.aws_iam_roles.sso_auto_discover[index].arns)[0]
+    # remove arn path with replace, as paths are not supported in the aws-auth configmap
+    rolearn  = replace(tolist(data.aws_iam_roles.sso_auto_discover[index].arns)[0], "//.*//", "/")
     username = sso_role.username
     groups   = sso_role.groups
   }]
