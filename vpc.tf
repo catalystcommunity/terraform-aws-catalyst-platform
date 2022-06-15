@@ -87,6 +87,8 @@ resource "aws_subnet" "public" {
     var.tags,
     local.public_subnet_tags
   )
+
+  depends_on = [aws_internet_gateway.igw]
 }
 
 # public route tables, one per subnet
