@@ -1,3 +1,10 @@
+## [1.1.2](https://github.com/catalystsquad/terraform-aws-catalyst-platform/compare/v1.1.1...v1.1.2) (2022-06-15)
+
+
+### Bug Fixes
+
+* add depends on to igw on public subnets ([#7](https://github.com/catalystsquad/terraform-aws-catalyst-platform/issues/7)) ([d8dedda](https://github.com/catalystsquad/terraform-aws-catalyst-platform/commit/d8dedda574e17e5bbe14541cc44bb83da30c19d5))
+
 ## [1.1.1](https://github.com/catalystsquad/terraform-aws-catalyst-platform/compare/v1.1.0...v1.1.1) (2022-06-14)
 
 
