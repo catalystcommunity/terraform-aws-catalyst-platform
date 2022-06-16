@@ -1,3 +1,10 @@
+## [1.1.4](https://github.com/catalystsquad/terraform-aws-catalyst-platform/compare/v1.1.3...v1.1.4) (2022-06-16)
+
+
+### Bug Fixes
+
+* bucket name reference in policy documents ([#9](https://github.com/catalystsquad/terraform-aws-catalyst-platform/issues/9)) ([9db63d7](https://github.com/catalystsquad/terraform-aws-catalyst-platform/commit/9db63d7ae760bea5b853cda7d596ac601ae4053d))
+
 ## [1.1.3](https://github.com/catalystsquad/terraform-aws-catalyst-platform/compare/v1.1.2...v1.1.3) (2022-06-16)
 
 
