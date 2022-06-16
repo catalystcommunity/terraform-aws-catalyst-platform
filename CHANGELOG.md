@@ -1,3 +1,10 @@
+## [1.1.5](https://github.com/catalystsquad/terraform-aws-catalyst-platform/compare/v1.1.4...v1.1.5) (2022-06-16)
+
+
+### Bug Fixes
+
+* loki and cortex s3 policy ([#10](https://github.com/catalystsquad/terraform-aws-catalyst-platform/issues/10)) ([869f481](https://github.com/catalystsquad/terraform-aws-catalyst-platform/commit/869f48124496427cd0f16979b42fdd85ecb48d43))
+
 ## [1.1.4](https://github.com/catalystsquad/terraform-aws-catalyst-platform/compare/v1.1.3...v1.1.4) (2022-06-16)
 
 
