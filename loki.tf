@@ -41,8 +41,8 @@ data "aws_iam_policy_document" "loki" {
       "s3:ListMultipartUploadParts",
     ]
     resources = [
-      "arn:aws:s3:::${aws_s3_bucket.loki[count.index].id}",
-      "arn:aws:s3:::${aws_s3_bucket.loki[count.index].id}/*",
+      "arn:aws:s3:::${local.loki_bucket_name}",
+      "arn:aws:s3:::${local.loki_bucket_name}/*",
     ]
   }
 }

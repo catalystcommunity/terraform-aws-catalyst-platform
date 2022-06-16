@@ -41,8 +41,8 @@ data "aws_iam_policy_document" "cortex" {
       "s3:ListMultipartUploadParts",
     ]
     resources = [
-      "arn:aws:s3:::${aws_s3_bucket.cortex[count.index].id}",
-      "arn:aws:s3:::${aws_s3_bucket.cortex[count.index].id}/*",
+      "arn:aws:s3:::${local.cortex_bucket_name}",
+      "arn:aws:s3:::${local.cortex_bucket_name}/*",
     ]
   }
 }
