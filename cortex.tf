@@ -1,18 +1,25 @@
 # optional cortex dependencies
+locals {
+  create_cortex_bucket = var.enable_cortex_dependencies && var.create_cortex_bucket
+
+  default_cortex_bucket_name = "${data.aws_caller_identity.current.account_id}-${var.eks_cluster_name}-cortex"
+  cortex_bucket_name         = coalesce(var.cortex_bucket_name_override, local.default_cortex_bucket_name)
+}
+
 resource "aws_s3_bucket" "cortex" {
-  count  = var.enable_cortex_dependencies ? 1 : 0
-  bucket = "${data.aws_caller_identity.current.account_id}-${var.eks_cluster_name}-cortex"
+  count  = local.create_cortex_bucket ? 1 : 0
+  bucket = local.cortex_bucket_name
   tags   = var.tags
 }
 
 resource "aws_s3_bucket_acl" "cortex" {
-  count  = var.enable_cortex_dependencies ? 1 : 0
+  count  = local.create_cortex_bucket ? 1 : 0
   bucket = aws_s3_bucket.cortex[count.index].id
   acl    = "private"
 }
 
 resource "aws_s3_bucket_server_side_encryption_configuration" "cortex" {
-  count  = var.enable_cortex_dependencies ? 1 : 0
+  count  = local.create_cortex_bucket ? 1 : 0
   bucket = aws_s3_bucket.cortex[count.index].id
 
   rule {
