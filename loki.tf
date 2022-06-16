@@ -34,11 +34,10 @@ data "aws_iam_policy_document" "loki" {
 
   statement {
     actions = [
+      "s3:ListBucket",
+      "s3:PutObject",
       "s3:GetObject",
       "s3:DeleteObject",
-      "s3:PutObject",
-      "s3:AbortMultipartUpload",
-      "s3:ListMultipartUploadParts",
     ]
     resources = [
       "arn:aws:s3:::${local.loki_bucket_name}",
