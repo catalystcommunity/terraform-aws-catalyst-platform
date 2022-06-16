@@ -1,18 +1,25 @@
 # optional loki dependencies
+locals {
+  create_loki_bucket = var.enable_loki_dependencies && var.create_loki_bucket
+
+  default_loki_bucket_name = "${data.aws_caller_identity.current.account_id}-${var.eks_cluster_name}-loki"
+  loki_bucket_name         = coalesce(var.loki_bucket_name_override, local.default_loki_bucket_name)
+}
+
 resource "aws_s3_bucket" "loki" {
-  count  = var.enable_loki_dependencies ? 1 : 0
-  bucket = "${data.aws_caller_identity.current.account_id}-${var.eks_cluster_name}-loki"
+  count  = local.create_loki_bucket ? 1 : 0
+  bucket = local.loki_bucket_name
   tags   = var.tags
 }
 
 resource "aws_s3_bucket_acl" "loki" {
-  count  = var.enable_loki_dependencies ? 1 : 0
+  count  = local.create_loki_bucket ? 1 : 0
   bucket = aws_s3_bucket.loki[count.index].id
   acl    = "private"
 }
 
 resource "aws_s3_bucket_server_side_encryption_configuration" "loki" {
-  count  = var.enable_loki_dependencies ? 1 : 0
+  count  = local.create_loki_bucket ? 1 : 0
   bucket = aws_s3_bucket.loki[count.index].id
 
   rule {

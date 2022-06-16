@@ -151,7 +151,7 @@ variable "enable_velero_dependencies" {
 }
 
 variable "velero_bucket_name_override" {
-  description = "override the velero bucket name"
+  description = "Override the Velero bucket name"
   type        = string
   default     = ""
 }
@@ -180,6 +180,18 @@ variable "enable_loki_dependencies" {
   default     = false
 }
 
+variable "loki_bucket_name_override" {
+  description = "Override the Loki bucket name"
+  type        = string
+  default     = ""
+}
+
+variable "create_loki_bucket" {
+  description = "Wether to create the Loki bucket when Loki dependencies are enabled. Allows for disabling the bucket and still creating the IAM dependencies, for scenarios where the bucket is not managed by terraform such as disaster recovery"
+  type        = bool
+  default     = true
+}
+
 variable "loki_namespace" {
   description = "Loki namespace, for configuring IRSA."
   type        = string
@@ -196,6 +208,18 @@ variable "enable_cortex_dependencies" {
   description = "Whether to enable Cortex S3 bucket and IAM role with IRSA."
   type        = bool
   default     = false
+}
+
+variable "cortex_bucket_name_override" {
+  description = "Override the Cortex bucket name"
+  type        = string
+  default     = ""
+}
+
+variable "create_cortex_bucket" {
+  description = "Wether to create the Cortex bucket when Cortex dependencies are enabled. Allows for disabling the bucket and still creating the IAM dependencies, for scenarios where the bucket is not managed by terraform such as disaster recovery"
+  type        = bool
+  default     = true
 }
 
 variable "cortex_namespace" {
