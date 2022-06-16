@@ -1,3 +1,10 @@
+## [1.1.3](https://github.com/catalystsquad/terraform-aws-catalyst-platform/compare/v1.1.2...v1.1.3) (2022-06-16)
+
+
+### Bug Fixes
+
+* allow for disabling observability bucket creation ([#8](https://github.com/catalystsquad/terraform-aws-catalyst-platform/issues/8)) ([98ca7ae](https://github.com/catalystsquad/terraform-aws-catalyst-platform/commit/98ca7ae14f7beebc6cdfeb9e3cdf26d42dec6652))
+
 ## [1.1.2](https://github.com/catalystsquad/terraform-aws-catalyst-platform/compare/v1.1.1...v1.1.2) (2022-06-15)
 
 
