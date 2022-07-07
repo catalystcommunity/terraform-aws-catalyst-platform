@@ -3,10 +3,6 @@ on:
   pull_request:
     branches:
       - main
-    paths:
-      - '*.tf'
-      - 'modules/**'
-      - 'README.md'
 jobs:
   conventional-commits-pr:
     if: "github.event.pull_request.draft == false && !contains(github.event.head_commit.message, 'chore(docs): apply automatic generated docs')"
@@ -14,6 +10,15 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: catalystsquad/action-validate-conventional-commits-pr@v1
+  terraform-validate:
+    if: "github.event.pull_request.draft == false && !contains(github.event.head_commit.message, 'chore(docs): apply automatic generated docs')"
+    name: Terraform Validate
+    runs-on: ubuntu-latest
+    steps:
+      - name: Validate
+        uses: catalystsquad/action-terraform@v1
+        with:
+          command: validate
   gen-docs:
     if: "!contains(github.event.head_commit.message, 'chore(docs): apply automatic generated docs')"
     name: Generate docs
