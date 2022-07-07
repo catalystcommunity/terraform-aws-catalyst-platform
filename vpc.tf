@@ -39,7 +39,7 @@ resource "aws_subnet" "private" {
   cidr_block        = var.availability_zones[count.index].private_subnet_cidr
   availability_zone = var.availability_zones[count.index].az_name
   tags = merge(
-    { "Name" = "${var.vpc_name}-private-subnet-${var.availability_zones[count.index].az_name}"  },
+    { "Name" = "${var.vpc_name}-private-subnet-${var.availability_zones[count.index].az_name}" },
     var.tags,
     local.private_subnet_tags
   )
@@ -51,7 +51,7 @@ resource "aws_route_table" "private" {
 
   vpc_id = aws_vpc.vpc.id
   tags = merge(
-    { "Name" = "${var.vpc_name}-private-rt-${var.availability_zones[count.index].az_name}"  },
+    { "Name" = "${var.vpc_name}-private-rt-${var.availability_zones[count.index].az_name}" },
     var.tags
   )
 }
@@ -83,7 +83,7 @@ resource "aws_subnet" "public" {
   availability_zone = var.availability_zones[count.index].az_name
 
   tags = merge(
-    { "Name" = "${var.vpc_name}-public-subnet-${var.availability_zones[count.index].az_name}"  },
+    { "Name" = "${var.vpc_name}-public-subnet-${var.availability_zones[count.index].az_name}" },
     var.tags,
     local.public_subnet_tags
   )
@@ -97,7 +97,7 @@ resource "aws_route_table" "public" {
 
   vpc_id = aws_vpc.vpc.id
   tags = merge(
-    { "Name" = "${var.vpc_name}-public-rt-${var.availability_zones[count.index].az_name}"  },
+    { "Name" = "${var.vpc_name}-public-rt-${var.availability_zones[count.index].az_name}" },
     var.tags
   )
 }
@@ -125,7 +125,7 @@ resource "aws_eip" "ngw" {
 
   vpc = true
   tags = merge(
-    { "Name" = "${var.vpc_name}-ngw-${var.availability_zones[count.index].az_name}"  },
+    { "Name" = "${var.vpc_name}-ngw-${var.availability_zones[count.index].az_name}" },
     var.tags,
   )
 }
@@ -136,7 +136,7 @@ resource "aws_nat_gateway" "ngw" {
   allocation_id = aws_eip.ngw[count.index].id
   subnet_id     = aws_subnet.public[count.index].id
   tags = merge(
-    { "Name" = "${var.vpc_name}-ngw-${var.availability_zones[count.index].az_name}"  },
+    { "Name" = "${var.vpc_name}-ngw-${var.availability_zones[count.index].az_name}" },
     var.tags,
   )
 
