@@ -2,11 +2,7 @@ output "eks_cluster_id" {
   value = aws_eks_cluster.cluster.id
 }
 
-output "eks_cluster_name" {
-  value = aws_eks_cluster.cluster.name
-}
-
-output "eks_cluster_name_arn" {
+output "eks_cluster_arn" {
   value = aws_eks_cluster.cluster.arn
 }
 
@@ -16,6 +12,10 @@ output "eks_cluster_endpoint" {
 
 output "eks_cluster_certificate_authority_data" {
   value = aws_eks_cluster.cluster.certificate_authority[0].data
+}
+
+output "eks_identity_oidc_url" {
+  value = aws_eks_cluster.cluster.identity[0].oidc[0].issuer
 }
 
 output "eks_irsa_provider_arn" {
