@@ -1,3 +1,10 @@
+## [1.1.6](https://github.com/catalystsquad/terraform-aws-catalyst-platform/compare/v1.1.5...v1.1.6) (2022-07-07)
+
+
+### Bug Fixes
+
+* Added outputs for eks cluster name, eks cluster arn, and eks irs… ([#11](https://github.com/catalystsquad/terraform-aws-catalyst-platform/issues/11)) ([1acc68c](https://github.com/catalystsquad/terraform-aws-catalyst-platform/commit/1acc68c4634a28fe453fb01b6fda89d475bc464e))
+
 ## [1.1.5](https://github.com/catalystsquad/terraform-aws-catalyst-platform/compare/v1.1.4...v1.1.5) (2022-06-16)
 
 
