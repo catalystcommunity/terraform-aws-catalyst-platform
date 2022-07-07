@@ -20,7 +20,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Validate
-        uses: catalystsquad/action-terraform@v1
+        uses: catalystsquad/action-terraform@validate-command
         with:
           command: validate
   gen-docs:
