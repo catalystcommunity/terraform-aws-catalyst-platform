@@ -1,3 +1,10 @@
+## [1.1.7](https://github.com/catalystsquad/terraform-aws-catalyst-platform/compare/v1.1.6...v1.1.7) (2022-07-08)
+
+
+### Bug Fixes
+
+* set create_before_destroy on nodegroups ([#14](https://github.com/catalystsquad/terraform-aws-catalyst-platform/issues/14)) ([1654868](https://github.com/catalystsquad/terraform-aws-catalyst-platform/commit/1654868a742b8d77de35d9517287596c0ac0dff4))
+
 ## [1.1.6](https://github.com/catalystsquad/terraform-aws-catalyst-platform/compare/v1.1.5...v1.1.6) (2022-07-07)
 
 
