@@ -123,7 +123,7 @@ data "aws_iam_policy_document" "cloudwatch_synthetics_access" {
   }
 
   statement {
-    actions = ["cloudwatch:PutMetricData"]
+    actions   = ["cloudwatch:PutMetricData"]
     resources = ["*"]
     condition {
       test     = "StringEquals"
