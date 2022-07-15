@@ -157,7 +157,7 @@ variable "velero_bucket_name_override" {
 }
 
 variable "create_velero_bucket" {
-  description = "Wether to create the Velero bucket when Velero dependencies are enabled. Allows for disabling the bucket and still creating the IAM dependencies, for scenarios where the bucket is not managed by terraform such as disaster recovery"
+  description = "Whether to create the Velero bucket when Velero dependencies are enabled. Allows for disabling the bucket and still creating the IAM dependencies, for scenarios where the bucket is not managed by terraform such as disaster recovery"
   type        = bool
   default     = true
 }
@@ -187,7 +187,7 @@ variable "loki_bucket_name_override" {
 }
 
 variable "create_loki_bucket" {
-  description = "Wether to create the Loki bucket when Loki dependencies are enabled. Allows for disabling the bucket and still creating the IAM dependencies, for scenarios where the bucket is not managed by terraform such as disaster recovery"
+  description = "Whether to create the Loki bucket when Loki dependencies are enabled. Allows for disabling the bucket and still creating the IAM dependencies, for scenarios where the bucket is not managed by terraform such as disaster recovery"
   type        = bool
   default     = true
 }
@@ -217,7 +217,7 @@ variable "cortex_bucket_name_override" {
 }
 
 variable "create_cortex_bucket" {
-  description = "Wether to create the Cortex bucket when Cortex dependencies are enabled. Allows for disabling the bucket and still creating the IAM dependencies, for scenarios where the bucket is not managed by terraform such as disaster recovery"
+  description = "Whether to create the Cortex bucket when Cortex dependencies are enabled. Allows for disabling the bucket and still creating the IAM dependencies, for scenarios where the bucket is not managed by terraform such as disaster recovery"
   type        = bool
   default     = true
 }
@@ -232,6 +232,34 @@ variable "cortex_service_account_name" {
   description = "Cortex service account name, for configuring IRSA."
   type        = string
   default     = "cortex"
+}
+
+variable "create_cloudwatch_synthetics_bucket" {
+  description = "Whether to create an S3 bucket for CloudWatch Synthetics."
+  type        = bool
+  default     = false
+}
+
+variable "cloudwatch_synthetics_bucket_name_override" {
+  description = "Override the CloudWatch Synthetics bucket name."
+  type        = string
+  default     = ""
+}
+
+variable "cloudwatch_synthetics_canaries" {
+  description = "List of CloudWatch Synthetic Canaries to create. Name is required, all other fields will inherit defaults if set to null."
+  type = list(object({
+    name                  = string
+    artifact_s3_location  = string
+    handler               = string
+    runtime_version       = string
+    source_code_path      = string
+    environment_variables = map(string)
+    delete_lambda         = bool
+    timeout_in_seconds    = number
+    schedule_expression   = string
+  }))
+  default = []
 }
 
 variable "tags" {
