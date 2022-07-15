@@ -1,3 +1,10 @@
+# [1.2.0](https://github.com/catalystsquad/terraform-aws-catalyst-platform/compare/v1.1.7...v1.2.0) (2022-07-15)
+
+
+### Features
+
+* add cloudwatch synthetics functionality ([#15](https://github.com/catalystsquad/terraform-aws-catalyst-platform/issues/15)) ([897cdcd](https://github.com/catalystsquad/terraform-aws-catalyst-platform/commit/897cdcdd6d3fede98e4311a72bc338102c109425))
+
 ## [1.1.7](https://github.com/catalystsquad/terraform-aws-catalyst-platform/compare/v1.1.6...v1.1.7) (2022-07-08)
 
 
