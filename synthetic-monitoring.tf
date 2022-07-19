@@ -231,9 +231,9 @@ resource "aws_cloudwatch_metric_alarm" "canary_alarm" {
   alarm_description   = each.value.alarm_config.alarm_description
 
   # publish to all "alarm" sns topics that we created
-  alarm_actions             = [aws_sns_topic.alarms[*].arn]
-  insufficient_data_actions = [aws_sns_topic.alarms[*].arn]
-  ok_actions                = [aws_sns_topic.alarms[*].arn]
+  alarm_actions             = [for _, v in aws_sns_topic.alarms : v.arn]
+  insufficient_data_actions = [for _, v in aws_sns_topic.alarms : v.arn]
+  ok_actions                = [for _, v in aws_sns_topic.alarms : v.arn]
 
   dimensions = {
     "CanaryName" = each.key
