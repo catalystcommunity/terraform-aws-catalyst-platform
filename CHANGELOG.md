@@ -1,3 +1,10 @@
+## [1.3.1](https://github.com/catalystsquad/terraform-aws-catalyst-platform/compare/v1.3.0...v1.3.1) (2022-07-19)
+
+
+### Bug Fixes
+
+* alarm action sns topic reference ([#17](https://github.com/catalystsquad/terraform-aws-catalyst-platform/issues/17)) ([3bf3797](https://github.com/catalystsquad/terraform-aws-catalyst-platform/commit/3bf379736aecc5eded99385dad730e281d45ece2))
+
 # [1.3.0](https://github.com/catalystsquad/terraform-aws-catalyst-platform/compare/v1.2.0...v1.3.0) (2022-07-19)
 
 
