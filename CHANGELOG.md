@@ -1,3 +1,10 @@
+# [1.3.0](https://github.com/catalystsquad/terraform-aws-catalyst-platform/compare/v1.2.0...v1.3.0) (2022-07-19)
+
+
+### Features
+
+* add sns topics and alert lambda functions for synthetic canaries ([#16](https://github.com/catalystsquad/terraform-aws-catalyst-platform/issues/16)) ([b480340](https://github.com/catalystsquad/terraform-aws-catalyst-platform/commit/b480340f40269b44be73c75d610bbbe6a68d2dfd))
+
 # [1.2.0](https://github.com/catalystsquad/terraform-aws-catalyst-platform/compare/v1.1.7...v1.2.0) (2022-07-15)
 
 
