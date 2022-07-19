@@ -130,12 +130,13 @@ module "platform" {
 |------|-------------|------|---------|:--------:|
 | <a name="input_eks_cluster_name"></a> [eks\_cluster\_name](#input\_eks\_cluster\_name) | Name of EKS cluster. Used in naming of many EKS resources, including cluster, IAM roles and policies, S3 buckets for Velero, Cortex, Loki, etc. | `string` | n/a | yes |
 | <a name="input_vpc_name"></a> [vpc\_name](#input\_vpc\_name) | Name of the VPC to create. Used in VPC resource tags for naming. | `string` | n/a | yes |
+| <a name="input_alarm_sns_topics"></a> [alarm\_sns\_topics](#input\_alarm\_sns\_topics) | List of SNS topics to create for alerting on CloudWatch Synthetics Canaries. All created SNS topics will be supplied to the Synthetics Canary alarms. publish\_target\_type should specify one of the supported targets, currently slack and teams. | <pre>list(object({<br>    name                = string<br>    publish_target_type = string<br>    webhook_url         = string<br>  }))</pre> | `[]` | no |
 | <a name="input_availability_zones"></a> [availability\_zones](#input\_availability\_zones) | List of Availability zones with corresponding public and private subnet CIDRs to create subnets in each. Default EKS node groups get created for each availability zone specified. | <pre>list(object({<br>    az_name             = string<br>    private_subnet_cidr = string<br>    public_subnet_cidr  = string<br>  }))</pre> | `[]` | no |
 | <a name="input_aws_auth_roles"></a> [aws\_auth\_roles](#input\_aws\_auth\_roles) | Extra roles to add to the mapRoles field in the aws\_auth configmap, for granting access via IAM roles | <pre>list(object({<br>    rolearn  = string<br>    username = string<br>    groups   = list(string)<br>  }))</pre> | `[]` | no |
 | <a name="input_aws_auth_sso_roles"></a> [aws\_auth\_sso\_roles](#input\_aws\_auth\_sso\_roles) | Extra SSO roles to add to the mapRoles field. Auto discovers SSO role ARNs based on regex. | <pre>list(object({<br>    sso_role_name = string<br>    username      = string<br>    groups        = list(string)<br>  }))</pre> | `[]` | no |
 | <a name="input_aws_auth_users"></a> [aws\_auth\_users](#input\_aws\_auth\_users) | Extra users to add to the mapUsers field in the aws\_auth configmap, for granting access via IAM users | <pre>list(object({<br>    userarn  = string<br>    username = string<br>    groups   = list(string)<br>  }))</pre> | `[]` | no |
 | <a name="input_cloudwatch_synthetics_bucket_name_override"></a> [cloudwatch\_synthetics\_bucket\_name\_override](#input\_cloudwatch\_synthetics\_bucket\_name\_override) | Override the CloudWatch Synthetics bucket name. | `string` | `""` | no |
-| <a name="input_cloudwatch_synthetics_canaries"></a> [cloudwatch\_synthetics\_canaries](#input\_cloudwatch\_synthetics\_canaries) | List of CloudWatch Synthetic Canaries to create. Name is required, all other fields will inherit defaults if set to null. | <pre>list(object({<br>    name                  = string<br>    artifact_s3_location  = string<br>    handler               = string<br>    runtime_version       = string<br>    source_code_path      = string<br>    environment_variables = map(string)<br>    delete_lambda         = bool<br>    timeout_in_seconds    = number<br>    schedule_expression   = string<br>  }))</pre> | `[]` | no |
+| <a name="input_cloudwatch_synthetics_canaries"></a> [cloudwatch\_synthetics\_canaries](#input\_cloudwatch\_synthetics\_canaries) | List of CloudWatch Synthetic Canaries to create. Name is required, all other fields will inherit defaults if set to null. | <pre>list(object({<br>    name                  = string<br>    artifact_s3_location  = string<br>    handler               = string<br>    runtime_version       = string<br>    source_code_path      = string<br>    environment_variables = map(string)<br>    delete_lambda         = bool<br>    timeout_in_seconds    = number<br>    schedule_expression   = string<br>    create_alarm          = bool<br>    alarm_config = object({<br>      comparison_operator = string<br>      evaluation_periods  = number<br>      period              = number<br>      statistic           = string<br>      threshold           = number<br>      alarm_description   = string<br>    })<br>  }))</pre> | `[]` | no |
 | <a name="input_cluster_autoscaler_namespace"></a> [cluster\_autoscaler\_namespace](#input\_cluster\_autoscaler\_namespace) | Cluster autoscaler namespace, for configuring IRSA. | `string` | `"cluster-autoscaler"` | no |
 | <a name="input_cluster_autoscaler_service_account_name"></a> [cluster\_autoscaler\_service\_account\_name](#input\_cluster\_autoscaler\_service\_account\_name) | Cluster autoscaler service account name, for configuring IRSA. | `string` | `"cluster-autoscaler"` | no |
 | <a name="input_cortex_bucket_name_override"></a> [cortex\_bucket\_name\_override](#input\_cortex\_bucket\_name\_override) | Override the Cortex bucket name | `string` | `""` | no |
@@ -192,18 +193,24 @@ module "platform" {
 
 | Name | Type |
 |------|------|
+| [aws_cloudwatch_metric_alarm.canary_alarm](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/cloudwatch_metric_alarm) | resource |
 | [aws_eip.ngw](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/eip) | resource |
 | [aws_eks_cluster.cluster](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/eks_cluster) | resource |
 | [aws_eks_node_group.default](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/eks_node_group) | resource |
 | [aws_iam_openid_connect_provider.irsa_provider](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/iam_openid_connect_provider) | resource |
+| [aws_iam_policy.alarm_lambda_access](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/iam_policy) | resource |
 | [aws_iam_policy.cloudwatch_synthetics_access](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/iam_policy) | resource |
+| [aws_iam_role.alarm_lambda_execution_role](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/iam_role) | resource |
 | [aws_iam_role.cloudwatch_synthetics_execution_role](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/iam_role) | resource |
 | [aws_iam_role.cluster_role](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/iam_role) | resource |
 | [aws_iam_role.default_node_group_role](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/iam_role) | resource |
+| [aws_iam_role_policy_attachment.alarm_lambda_access](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/iam_role_policy_attachment) | resource |
 | [aws_iam_role_policy_attachment.cloudwatch_synthetics_access](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/iam_role_policy_attachment) | resource |
 | [aws_iam_role_policy_attachment.cluster_role_policy](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/iam_role_policy_attachment) | resource |
 | [aws_iam_role_policy_attachment.node_group_policy](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/iam_role_policy_attachment) | resource |
 | [aws_internet_gateway.igw](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/internet_gateway) | resource |
+| [aws_lambda_function.alarm](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/lambda_function) | resource |
+| [aws_lambda_permission.alarm_sns_access](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/lambda_permission) | resource |
 | [aws_nat_gateway.ngw](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/nat_gateway) | resource |
 | [aws_route.private-ngw](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/route) | resource |
 | [aws_route.public-igw](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/route) | resource |
@@ -223,13 +230,18 @@ module "platform" {
 | [aws_s3_bucket_server_side_encryption_configuration.cortex](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/s3_bucket_server_side_encryption_configuration) | resource |
 | [aws_s3_bucket_server_side_encryption_configuration.loki](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/s3_bucket_server_side_encryption_configuration) | resource |
 | [aws_s3_bucket_server_side_encryption_configuration.velero](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/s3_bucket_server_side_encryption_configuration) | resource |
+| [aws_sns_topic.alarms](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/sns_topic) | resource |
+| [aws_sns_topic_subscription.alarm_lambda](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/sns_topic_subscription) | resource |
 | [aws_subnet.private](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/subnet) | resource |
 | [aws_subnet.public](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/subnet) | resource |
 | [aws_synthetics_canary.canary](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/synthetics_canary) | resource |
 | [aws_vpc.vpc](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/vpc) | resource |
 | [kubernetes_config_map_v1_data.aws_auth](https://registry.terraform.io/providers/hashicorp/kubernetes/latest/docs/resources/config_map_v1_data) | resource |
+| [archive_file.alarm_lambda_code](https://registry.terraform.io/providers/hashicorp/archive/latest/docs/data-sources/file) | data source |
 | [archive_file.synthetic_canary_lambda_code](https://registry.terraform.io/providers/hashicorp/archive/latest/docs/data-sources/file) | data source |
 | [aws_caller_identity.current](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/data-sources/caller_identity) | data source |
+| [aws_iam_policy_document.alarm_lambda_access](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/data-sources/iam_policy_document) | data source |
+| [aws_iam_policy_document.alarm_lambda_assume_role](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/data-sources/iam_policy_document) | data source |
 | [aws_iam_policy_document.cloudwatch_synthetics_access](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/data-sources/iam_policy_document) | data source |
 | [aws_iam_policy_document.cloudwatch_synthetics_assume_role](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/data-sources/iam_policy_document) | data source |
 | [aws_iam_policy_document.cluster_assume_role_policy](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/data-sources/iam_policy_document) | data source |
@@ -239,6 +251,7 @@ module "platform" {
 | [aws_iam_policy_document.node_group_assume_role_policy](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/data-sources/iam_policy_document) | data source |
 | [aws_iam_policy_document.velero](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/data-sources/iam_policy_document) | data source |
 | [aws_iam_roles.sso_auto_discover](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/data-sources/iam_roles) | data source |
+| [aws_region.current](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/data-sources/region) | data source |
 | [tls_certificate.irsa](https://registry.terraform.io/providers/hashicorp/tls/latest/docs/data-sources/certificate) | data source |
 
 ## Modules
