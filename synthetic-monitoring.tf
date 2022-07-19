@@ -8,8 +8,22 @@ locals {
     schedule_expression         = "rate(5 minutes)"
     timeout_in_seconds          = 60
     environment_variables       = {}
+    create_alarm                = true
+    alarm_config = {
+      # default alarm will alert on multiple failures over 15 minutes
+      comparison_operator = "LessThanThreshold"
+      evaluation_periods  = 1
+      period              = 900
+      statistic           = "Average"
+      threshold           = "66"
+      alarm_description   = "Alert when canary success percentage has decreased below 66% in the last 15 minutes"
+    }
   }
 
+  # Default canary configuration for each field if the value is null
+  # Terraform 1.3 will likely have a feature to do this automatically in the
+  # variable declaration which will simplify what's required here and improve
+  # user implementation
   synthetics_canaries = {
     for o in var.cloudwatch_synthetics_canaries : o.name => {
       artifact_s3_location  = o.artifact_s3_location == null ? "${local.synthetics_canary_defaults.artifact_s3_location_prefix}${o.name}/" : o.artifact_s3_location
@@ -20,6 +34,8 @@ locals {
       schedule_expression   = o.schedule_expression == null ? local.synthetics_canary_defaults.schedule_expression : o.schedule_expression
       timeout_in_seconds    = o.timeout_in_seconds == null ? local.synthetics_canary_defaults.timeout_in_seconds : o.timeout_in_seconds
       environment_variables = o.environment_variables == null ? local.synthetics_canary_defaults.environment_variables : o.environment_variables
+      create_alarm          = o.create_alarm == null ? local.synthetics_canary_defaults.create_alarm : o.create_alarm
+      alarm_config          = o.alarm_config == null ? local.synthetics_canary_defaults.alarm_config : o.alarm_config
     }
   }
 }
@@ -60,8 +76,9 @@ resource "aws_s3_bucket_server_side_encryption_configuration" "cloudwatch_synthe
 
 # synthetics iam dependencies for canary lambda function
 locals {
-  log_group_arn_prefix = format(
-    "arn:aws:logs:*:%s:log-group:/aws/lambda/cwsyn-",
+  synthetics_log_group_arn_prefix = format(
+    "arn:aws:logs:%s:%s:log-group:/aws/lambda/cwsyn-",
+    data.aws_region.current.name,
     data.aws_caller_identity.current.account_id,
   )
 }
@@ -99,8 +116,8 @@ data "aws_iam_policy_document" "cloudwatch_synthetics_access" {
       "logs:PutLogEvents",
     ])
     resources = [
-      "${local.log_group_arn_prefix}${each.key}:*",
-      "${local.log_group_arn_prefix}${each.key}:*:*",
+      "${local.synthetics_log_group_arn_prefix}${each.key}:*",
+      "${local.synthetics_log_group_arn_prefix}${each.key}:*:*",
     ]
   }
 
@@ -165,7 +182,7 @@ data "archive_file" "synthetic_canary_lambda_code" {
   # the function code.
   output_path = format(
     "%s/generated-archives/lambda-function-%s-%s.zip",
-    path.module, each.key, filemd5(try(each.value.source_code_path)),
+    path.module, each.key, filemd5(each.value.source_code_path),
   )
 }
 
@@ -191,4 +208,34 @@ resource "aws_synthetics_canary" "canary" {
   }
 
   tags = var.tags
+}
+
+# cloudwatch alarm
+resource "aws_cloudwatch_metric_alarm" "canary_alarm" {
+  for_each = {
+    # rebuild synthetics_canaries map, only include canaries that have an alarm enabled
+    for k, v in local.synthetics_canaries : k => v
+    if v.create_alarm
+  }
+
+  alarm_name         = "${each.key}-canary"
+  metric_name        = "SuccessPercent"
+  namespace          = "CloudWatchSynthetics"
+  treat_missing_data = "breaching"
+
+  comparison_operator = each.value.alarm_config.comparison_operator
+  evaluation_periods  = each.value.alarm_config.evaluation_periods
+  period              = each.value.alarm_config.period
+  statistic           = each.value.alarm_config.statistic
+  threshold           = each.value.alarm_config.threshold
+  alarm_description   = each.value.alarm_config.alarm_description
+
+  # publish to all "alarm" sns topics that we created
+  alarm_actions             = [aws_sns_topic.alarms[*].arn]
+  insufficient_data_actions = [aws_sns_topic.alarms[*].arn]
+  ok_actions                = [aws_sns_topic.alarms[*].arn]
+
+  dimensions = {
+    "CanaryName" = each.key
+  }
 }
