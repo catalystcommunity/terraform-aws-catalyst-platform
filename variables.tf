@@ -234,6 +234,21 @@ variable "cortex_service_account_name" {
   default     = "cortex"
 }
 
+variable "alarm_sns_topics" {
+  description = "List of SNS topics to create for alerting on CloudWatch Synthetics Canaries. All created SNS topics will be supplied to the Synthetics Canary alarms. publish_target_type should specify one of the supported targets, currently slack and teams."
+  type = list(object({
+    name                = string
+    publish_target_type = string
+    webhook_url         = string
+  }))
+  default = []
+
+  validation {
+    condition     = alltrue([for o in var.alarm_sns_topics : contains(["slack", "teams"], o.publish_target_type)])
+    error_message = "publish_target_type must be one of: slack, teams"
+  }
+}
+
 variable "create_cloudwatch_synthetics_bucket" {
   description = "Whether to create an S3 bucket for CloudWatch Synthetics."
   type        = bool
@@ -258,6 +273,15 @@ variable "cloudwatch_synthetics_canaries" {
     delete_lambda         = bool
     timeout_in_seconds    = number
     schedule_expression   = string
+    create_alarm          = bool
+    alarm_config = object({
+      comparison_operator = string
+      evaluation_periods  = number
+      period              = number
+      statistic           = string
+      threshold           = number
+      alarm_description   = string
+    })
   }))
   default = []
 }
