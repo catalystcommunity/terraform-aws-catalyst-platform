@@ -1,3 +1,10 @@
+## [1.3.2](https://github.com/catalystsquad/terraform-aws-catalyst-platform/compare/v1.3.1...v1.3.2) (2022-10-03)
+
+
+### Bug Fixes
+
+* add network resource id outputs ([#18](https://github.com/catalystsquad/terraform-aws-catalyst-platform/issues/18)) ([3335174](https://github.com/catalystsquad/terraform-aws-catalyst-platform/commit/3335174037dff373aa0318e6f5a06e917be28e9a))
+
 ## [1.3.1](https://github.com/catalystsquad/terraform-aws-catalyst-platform/compare/v1.3.0...v1.3.1) (2022-07-19)
 
 
