@@ -186,8 +186,11 @@ module "platform" {
 | <a name="output_eks_irsa_provider_arn"></a> [eks\_irsa\_provider\_arn](#output\_eks\_irsa\_provider\_arn) | n/a |
 | <a name="output_loki_irsa_role_arn"></a> [loki\_irsa\_role\_arn](#output\_loki\_irsa\_role\_arn) | n/a |
 | <a name="output_loki_s3_bucket_id"></a> [loki\_s3\_bucket\_id](#output\_loki\_s3\_bucket\_id) | n/a |
+| <a name="output_private_subnet_ids"></a> [private\_subnet\_ids](#output\_private\_subnet\_ids) | n/a |
+| <a name="output_public_subnet_ids"></a> [public\_subnet\_ids](#output\_public\_subnet\_ids) | n/a |
 | <a name="output_velero_irsa_role_arn"></a> [velero\_irsa\_role\_arn](#output\_velero\_irsa\_role\_arn) | n/a |
 | <a name="output_velero_s3_bucket_id"></a> [velero\_s3\_bucket\_id](#output\_velero\_s3\_bucket\_id) | n/a |
+| <a name="output_vpc_id"></a> [vpc\_id](#output\_vpc\_id) | n/a |
 
 ## Resources
 
