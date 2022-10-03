@@ -49,3 +49,15 @@ output "cortex_s3_bucket_id" {
 output "cortex_irsa_role_arn" {
   value = try(module.cortex_irsa_role[0].role_arn, "")
 }
+
+output "vpc_id" {
+  value = aws_vpc.vpc.id
+}
+
+output "private_subnet_ids" {
+  value = aws_subnet.private.*.id
+}
+
+output "public_subnet_ids" {
+  value = aws_subnet.public.*.id
+}
