@@ -1,3 +1,10 @@
+## [1.3.3](https://github.com/catalystsquad/terraform-aws-catalyst-platform/compare/v1.3.2...v1.3.3) (2023-03-07)
+
+
+### Bug Fixes
+
+* Add role name and id to the outputs ([#20](https://github.com/catalystsquad/terraform-aws-catalyst-platform/issues/20)) ([9c1f6e7](https://github.com/catalystsquad/terraform-aws-catalyst-platform/commit/9c1f6e71a58017c867f291d58783bf760056a327))
+
 ## [1.3.2](https://github.com/catalystsquad/terraform-aws-catalyst-platform/compare/v1.3.1...v1.3.2) (2022-10-03)
 
 
