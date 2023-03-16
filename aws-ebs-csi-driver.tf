@@ -15,5 +15,5 @@ module "aws_ebs_csi_irsa_role" {
 resource "aws_iam_role_policy_attachment" "aws_ebs_csi_driver" {
   count      = var.enable_aws_ebs_csi_driver_irsa ? 1 : 0
   role       = module.aws_ebs_csi_irsa_role[count.index].role_name
-  policy_arn = "arn:aws:iam::aws:policy/AmazonEBSCSIDriverPolicy"
+  policy_arn = "arn:aws:iam::aws:policy/service-role/AmazonEBSCSIDriverPolicy"
 }
