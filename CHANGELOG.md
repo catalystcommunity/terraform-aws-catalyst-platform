@@ -1,3 +1,10 @@
+## [1.4.1](https://github.com/catalystsquad/terraform-aws-catalyst-platform/compare/v1.4.0...v1.4.1) (2023-03-16)
+
+
+### Bug Fixes
+
+* ebs csi driver policy path ([#22](https://github.com/catalystsquad/terraform-aws-catalyst-platform/issues/22)) ([533733e](https://github.com/catalystsquad/terraform-aws-catalyst-platform/commit/533733ef0ce19aafd9b47092f7127e38bb824457))
+
 # [1.4.0](https://github.com/catalystsquad/terraform-aws-catalyst-platform/compare/v1.3.3...v1.4.0) (2023-03-16)
 
 
