@@ -286,6 +286,24 @@ variable "cloudwatch_synthetics_canaries" {
   default = []
 }
 
+variable "enable_aws_ebs_csi_driver_irsa" {
+  description = "Whether to enable the AWS EBS CSI driver IAM role with IRSA."
+  type        = bool
+  default     = false
+}
+
+variable "aws_ebs_csi_driver_namespace" {
+  description = "AWS EBS CSI driver namespace, for configuring IRSA."
+  type        = string
+  default     = "kube-system"
+}
+
+variable "aws_ebs_csi_driver_service_account_name" {
+  description = "AWS EBS CSI driver service account name, for configuring IRSA."
+  type        = string
+  default     = "ebs-csi-controller-sa" # helm chart default
+}
+
 variable "tags" {
   type    = map(string)
   default = {}
