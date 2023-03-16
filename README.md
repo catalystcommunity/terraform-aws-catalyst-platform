@@ -135,6 +135,8 @@ module "platform" {
 | <a name="input_aws_auth_roles"></a> [aws\_auth\_roles](#input\_aws\_auth\_roles) | Extra roles to add to the mapRoles field in the aws\_auth configmap, for granting access via IAM roles | <pre>list(object({<br>    rolearn  = string<br>    username = string<br>    groups   = list(string)<br>  }))</pre> | `[]` | no |
 | <a name="input_aws_auth_sso_roles"></a> [aws\_auth\_sso\_roles](#input\_aws\_auth\_sso\_roles) | Extra SSO roles to add to the mapRoles field. Auto discovers SSO role ARNs based on regex. | <pre>list(object({<br>    sso_role_name = string<br>    username      = string<br>    groups        = list(string)<br>  }))</pre> | `[]` | no |
 | <a name="input_aws_auth_users"></a> [aws\_auth\_users](#input\_aws\_auth\_users) | Extra users to add to the mapUsers field in the aws\_auth configmap, for granting access via IAM users | <pre>list(object({<br>    userarn  = string<br>    username = string<br>    groups   = list(string)<br>  }))</pre> | `[]` | no |
+| <a name="input_aws_ebs_csi_driver_namespace"></a> [aws\_ebs\_csi\_driver\_namespace](#input\_aws\_ebs\_csi\_driver\_namespace) | AWS EBS CSI driver namespace, for configuring IRSA. | `string` | `"kube-system"` | no |
+| <a name="input_aws_ebs_csi_driver_service_account_name"></a> [aws\_ebs\_csi\_driver\_service\_account\_name](#input\_aws\_ebs\_csi\_driver\_service\_account\_name) | AWS EBS CSI driver service account name, for configuring IRSA. | `string` | `"ebs-csi-controller-sa"` | no |
 | <a name="input_cloudwatch_synthetics_bucket_name_override"></a> [cloudwatch\_synthetics\_bucket\_name\_override](#input\_cloudwatch\_synthetics\_bucket\_name\_override) | Override the CloudWatch Synthetics bucket name. | `string` | `""` | no |
 | <a name="input_cloudwatch_synthetics_canaries"></a> [cloudwatch\_synthetics\_canaries](#input\_cloudwatch\_synthetics\_canaries) | List of CloudWatch Synthetic Canaries to create. Name is required, all other fields will inherit defaults if set to null. | <pre>list(object({<br>    name                  = string<br>    artifact_s3_location  = string<br>    handler               = string<br>    runtime_version       = string<br>    source_code_path      = string<br>    environment_variables = map(string)<br>    delete_lambda         = bool<br>    timeout_in_seconds    = number<br>    schedule_expression   = string<br>    create_alarm          = bool<br>    alarm_config = object({<br>      comparison_operator = string<br>      evaluation_periods  = number<br>      period              = number<br>      statistic           = string<br>      threshold           = number<br>      alarm_description   = string<br>    })<br>  }))</pre> | `[]` | no |
 | <a name="input_cluster_autoscaler_namespace"></a> [cluster\_autoscaler\_namespace](#input\_cluster\_autoscaler\_namespace) | Cluster autoscaler namespace, for configuring IRSA. | `string` | `"cluster-autoscaler"` | no |
@@ -156,6 +158,7 @@ module "platform" {
 | <a name="input_eks_default_node_groups_max_size"></a> [eks\_default\_node\_groups\_max\_size](#input\_eks\_default\_node\_groups\_max\_size) | Default node groups' maximum size. | `number` | `3` | no |
 | <a name="input_eks_default_node_groups_min_size"></a> [eks\_default\_node\_groups\_min\_size](#input\_eks\_default\_node\_groups\_min\_size) | Default node groups' minimum size | `number` | `1` | no |
 | <a name="input_eks_default_node_groups_version"></a> [eks\_default\_node\_groups\_version](#input\_eks\_default\_node\_groups\_version) | Kubernetes version of the EKS cluster's default node groups, allows for upgrading the kubernetes control plane first, then upgrading the node groups separately afterwards. Defaults to the specified eks\_cluster\_version variable. | `string` | `""` | no |
+| <a name="input_enable_aws_ebs_csi_driver_irsa"></a> [enable\_aws\_ebs\_csi\_driver\_irsa](#input\_enable\_aws\_ebs\_csi\_driver\_irsa) | Whether to enable the AWS EBS CSI driver IAM role with IRSA. | `bool` | `false` | no |
 | <a name="input_enable_cortex_dependencies"></a> [enable\_cortex\_dependencies](#input\_enable\_cortex\_dependencies) | Whether to enable Cortex S3 bucket and IAM role with IRSA. | `bool` | `false` | no |
 | <a name="input_enable_eks_default_node_groups"></a> [enable\_eks\_default\_node\_groups](#input\_enable\_eks\_default\_node\_groups) | Enables creation of a default set of node groups, one per availability zone defined by the availability\_zones variable | `bool` | `true` | no |
 | <a name="input_enable_eks_subnet_tags"></a> [enable\_eks\_subnet\_tags](#input\_enable\_eks\_subnet\_tags) | Whether to enable addition of EKS tags to subnet resources. | `bool` | `true` | no |
@@ -208,6 +211,7 @@ module "platform" {
 | [aws_iam_role.cluster_role](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/iam_role) | resource |
 | [aws_iam_role.default_node_group_role](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/iam_role) | resource |
 | [aws_iam_role_policy_attachment.alarm_lambda_access](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/iam_role_policy_attachment) | resource |
+| [aws_iam_role_policy_attachment.aws_ebs_csi_driver](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/iam_role_policy_attachment) | resource |
 | [aws_iam_role_policy_attachment.cloudwatch_synthetics_access](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/iam_role_policy_attachment) | resource |
 | [aws_iam_role_policy_attachment.cluster_role_policy](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/iam_role_policy_attachment) | resource |
 | [aws_iam_role_policy_attachment.node_group_policy](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/iam_role_policy_attachment) | resource |
@@ -261,6 +265,7 @@ module "platform" {
 
 | Name | Source | Version |
 |------|--------|---------|
+| <a name="module_aws_ebs_csi_irsa_role"></a> [aws\_ebs\_csi\_irsa\_role](#module\_aws\_ebs\_csi\_irsa\_role) | ./modules/eks-irsa-role | n/a |
 | <a name="module_cluster_autoscaler_irsa_role"></a> [cluster\_autoscaler\_irsa\_role](#module\_cluster\_autoscaler\_irsa\_role) | ./modules/eks-irsa-role | n/a |
 | <a name="module_cortex_irsa_role"></a> [cortex\_irsa\_role](#module\_cortex\_irsa\_role) | ./modules/eks-irsa-role | n/a |
 | <a name="module_loki_irsa_role"></a> [loki\_irsa\_role](#module\_loki\_irsa\_role) | ./modules/eks-irsa-role | n/a |
