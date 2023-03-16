@@ -1,3 +1,10 @@
+# [1.4.0](https://github.com/catalystsquad/terraform-aws-catalyst-platform/compare/v1.3.3...v1.4.0) (2023-03-16)
+
+
+### Features
+
+* add optional aws ebs csi driver irsa role ([#21](https://github.com/catalystsquad/terraform-aws-catalyst-platform/issues/21)) ([709a8dd](https://github.com/catalystsquad/terraform-aws-catalyst-platform/commit/709a8dd2c35afa30d220c38c1151eeb0fe82fca7))
+
 ## [1.3.3](https://github.com/catalystsquad/terraform-aws-catalyst-platform/compare/v1.3.2...v1.3.3) (2023-03-07)
 
 
