@@ -1,3 +1,10 @@
+# [1.5.0](https://github.com/catalystsquad/terraform-aws-catalyst-platform/compare/v1.4.1...v1.5.0) (2023-07-12)
+
+
+### Features
+
+* add optional extra assume role statements in irsa module ([#23](https://github.com/catalystsquad/terraform-aws-catalyst-platform/issues/23)) ([f1e4fe3](https://github.com/catalystsquad/terraform-aws-catalyst-platform/commit/f1e4fe31c6190d95ed3a218f9f23f5f0999d8d3c))
+
 ## [1.4.1](https://github.com/catalystsquad/terraform-aws-catalyst-platform/compare/v1.4.0...v1.4.1) (2023-03-16)
 
 
