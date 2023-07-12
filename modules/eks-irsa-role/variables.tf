@@ -60,3 +60,32 @@ variable "policy_description" {
   type        = string
   default     = ""
 }
+
+variable "extra_assume_role_policy_statements" {
+  description = "A list of extra IAM policy statements to add to the assume role policy"
+  type = list(object({
+    actions       = optional(list(string), null)
+    effect        = optional(string, null)
+    not_actions   = optional(list(string), null)
+    not_resources = optional(list(string), null)
+    resources     = optional(list(string), null)
+    sid           = optional(string, null)
+
+    conditions = optional(list(object({
+      test     = optional(string, null)
+      values   = optional(list(string), null)
+      variable = optional(string, null)
+    })), [])
+
+    not_principals = optional(list(object({
+      identifiers = optional(list(string), null)
+      type        = optional(string, null)
+    })), [])
+
+    principals = optional(list(object({
+      identifiers = optional(list(string), null)
+      type        = optional(string, null)
+    })), [])
+  }))
+  default = []
+}
