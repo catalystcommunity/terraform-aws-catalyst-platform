@@ -120,7 +120,7 @@ module "platform" {
 |------|---------|
 | <a name="requirement_terraform"></a> [terraform](#requirement\_terraform) | >= 0.13.1 |
 | <a name="requirement_archive"></a> [archive](#requirement\_archive) | ~> 2.0 |
-| <a name="requirement_aws"></a> [aws](#requirement\_aws) | ~> 4.0 |
+| <a name="requirement_aws"></a> [aws](#requirement\_aws) | ~> 5.0 |
 | <a name="requirement_kubernetes"></a> [kubernetes](#requirement\_kubernetes) | ~> 2.0 |
 | <a name="requirement_tls"></a> [tls](#requirement\_tls) | ~> 3.0 |
 
@@ -130,6 +130,7 @@ module "platform" {
 |------|-------------|------|---------|:--------:|
 | <a name="input_eks_cluster_name"></a> [eks\_cluster\_name](#input\_eks\_cluster\_name) | Name of EKS cluster. Used in naming of many EKS resources, including cluster, IAM roles and policies, S3 buckets for Velero, Cortex, Loki, etc. | `string` | n/a | yes |
 | <a name="input_vpc_name"></a> [vpc\_name](#input\_vpc\_name) | Name of the VPC to create. Used in VPC resource tags for naming. | `string` | n/a | yes |
+| <a name="input_alarm_lambda_settings"></a> [alarm\_lambda\_settings](#input\_alarm\_lambda\_settings) | Alarm lambda function settings. Default settings are provided for slack and teams, but can be overridden here. | <pre>map(object({<br>    source_code_path    = string<br>    zip_source_filename = string<br>    handler             = string<br>    runtime             = string<br>  }))</pre> | `{}` | no |
 | <a name="input_alarm_sns_topics"></a> [alarm\_sns\_topics](#input\_alarm\_sns\_topics) | List of SNS topics to create for alerting on CloudWatch Synthetics Canaries. All created SNS topics will be supplied to the Synthetics Canary alarms. publish\_target\_type should specify one of the supported targets, currently slack and teams. | <pre>list(object({<br>    name                = string<br>    publish_target_type = string<br>    webhook_url         = string<br>  }))</pre> | `[]` | no |
 | <a name="input_availability_zones"></a> [availability\_zones](#input\_availability\_zones) | List of Availability zones with corresponding public and private subnet CIDRs to create subnets in each. Default EKS node groups get created for each availability zone specified. | <pre>list(object({<br>    az_name             = string<br>    private_subnet_cidr = string<br>    public_subnet_cidr  = string<br>  }))</pre> | `[]` | no |
 | <a name="input_aws_auth_roles"></a> [aws\_auth\_roles](#input\_aws\_auth\_roles) | Extra roles to add to the mapRoles field in the aws\_auth configmap, for granting access via IAM roles | <pre>list(object({<br>    rolearn  = string<br>    username = string<br>    groups   = list(string)<br>  }))</pre> | `[]` | no |

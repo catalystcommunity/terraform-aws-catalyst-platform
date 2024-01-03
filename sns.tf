@@ -71,20 +71,25 @@ resource "aws_iam_role_policy_attachment" "alarm_lambda_access" {
 # create the lambda function
 locals {
   # default settings for different supported publish types
-  alarm_lambda_settings = {
+  alarm_lambda_settings_defaults = {
     slack = {
       source_code_path    = "${path.module}/assets/default-slack-notifier-lambda-function/index.js"
       zip_source_filename = "index.js"
       handler             = "index.handler"
-      runtime             = "nodejs16.x"
+      runtime             = "nodejs20.x"
     }
     teams = {
       source_code_path    = "${path.module}/assets/default-teams-notifier-lambda-function/index.js"
       zip_source_filename = "index.js"
       handler             = "index.handler"
-      runtime             = "nodejs16.x"
+      runtime             = "nodejs20.x"
     }
   }
+
+  alarm_lambda_settings = merge(
+    local.alarm_lambda_settings_defaults,
+    var.alarm_lambda_settings,
+  )
 }
 
 # create the zip file for the alarm lambda function

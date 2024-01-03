@@ -249,6 +249,17 @@ variable "alarm_sns_topics" {
   }
 }
 
+variable "alarm_lambda_settings" {
+  description = "Alarm lambda function settings. Default settings are provided for slack and teams, but can be overridden here."
+  type = map(object({
+    source_code_path    = string
+    zip_source_filename = string
+    handler             = string
+    runtime             = string
+  }))
+  default = {}
+}
+
 variable "create_cloudwatch_synthetics_bucket" {
   description = "Whether to create an S3 bucket for CloudWatch Synthetics."
   type        = bool

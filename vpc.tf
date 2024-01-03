@@ -123,7 +123,6 @@ resource "aws_route_table_association" "public" {
 resource "aws_eip" "ngw" {
   count = length(var.availability_zones)
 
-  vpc = true
   tags = merge(
     { "Name" = "${var.vpc_name}-ngw-${var.availability_zones[count.index].az_name}" },
     var.tags,
