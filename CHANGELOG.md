@@ -1,3 +1,5 @@
+# [2.0.0](https://github.com/catalystsquad/terraform-aws-catalyst-platform/compare/v1.5.0...v2.0.0) (2024-01-03)
+
 # [1.5.0](https://github.com/catalystsquad/terraform-aws-catalyst-platform/compare/v1.4.1...v1.5.0) (2023-07-12)
 
 
