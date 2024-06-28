@@ -12,6 +12,14 @@ resource "aws_s3_bucket" "velero" {
   tags   = var.tags
 }
 
+resource "aws_s3_bucket_ownership_controls" "velero" {
+  count  = local.create_velero_bucket ? 1 : 0
+  bucket = aws_s3_bucket.velero[count.index].id
+  rule {
+      object_ownership = "ObjectWriter"
+  }
+}
+
 resource "aws_s3_bucket_acl" "velero" {
   count  = local.create_velero_bucket ? 1 : 0
   bucket = aws_s3_bucket.velero[count.index].id
