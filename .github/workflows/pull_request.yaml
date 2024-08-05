@@ -9,14 +9,14 @@ jobs:
     name: Validate Conventional Commits PR
     runs-on: ubuntu-latest
     steps:
-      - uses: catalystsquad/action-validate-conventional-commits-pr@v1
+      - uses: catalystcommunity/action-validate-conventional-commits-pr@v1
   terraform-validate:
     if: "github.event.pull_request.draft == false && !contains(github.event.head_commit.message, 'chore(docs): apply automatic generated docs')"
     name: Terraform Validate
     runs-on: ubuntu-latest
     steps:
       - name: Validate
-        uses: catalystsquad/action-terraform@v1
+        uses: catalystcommunity/action-terraform@v1
         with:
           command: validate
   gen-docs:
