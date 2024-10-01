@@ -86,7 +86,7 @@ resource "aws_eks_node_group" "default" {
   cluster_name           = aws_eks_cluster.cluster.name
   instance_types         = var.eks_default_node_groups_instance_types
   node_role_arn          = aws_iam_role.default_node_group_role.arn
-  subnet_ids             = aws_subnet.private[*].id
+  subnet_ids             = aws_subnet.private[count.index].id
   version                = local.default_node_group_version
   tags                   = var.tags
 
